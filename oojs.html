@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<style>
+    .router-link-active{
+        font-size: 20px;
+        color: red;
+    }
+</style>
+<div id="box">
+    <ul>
+        <li>
+            <router-link to="/home">主页</router-link>
+        </li>
+        <li>
+            <router-link to="/news">新闻</router-link>
+        </li>
+    </ul>
+    <div>
+        <router-view></router-view>
+    </div>
+</div>
+<template id="home">
+    <div><h3>我是主页</h3>
+    <router-link to="/home/login">登陆</router-link>
+    <router-link to="/home/reg">注册</router-link>
+        <div><router-view></router-view></div>
+    </div>
+</template>
+<template id="news">
+    <h3>我是新闻</h3>
+</template>
+<template id="login"><h3>我是登陆信息</h3> </template>
+<script>
+    let App = Vue.extend()
+    let Home = Vue.extend({
+        template:'#home',
+    });
+    let News = Vue.extend({
+        template:'#news'
+    });
+    let Login = Vue.extend({
+        template:'#login'
+    });
+    let router = new VueRouter({
+        routes:[
+            {path:'/home',
+                component:Home,
+                children:[{path:'/home/login',
+                component:Login},{path:'/home/reg',component:{template:'<h3>我是注册信息</h3>'}}]
+
+            },
+            {
+                path:'/home/loginzz',
+                component:Login
+            },
+
+            {path:'/news',component:News},
+            {
+                path:'/',
+                redirect:'/home'
+
+            }
+            ]
+    });
+     new Vue({
+         el:'#box',
+         router:router,
+         App
+     })
+</script>

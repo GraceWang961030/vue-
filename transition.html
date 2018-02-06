@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transition</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        p{
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin:10px auto ;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            new Vue({
+                el:'#box',
+                data:{
+                    show:'',
+                    list:['apple','banana','pear','orange']
+                },
+                computed:{
+                    lists(){
+                        let arr=[];
+                        let a=this;
+                        this.list.forEach(function (val) {
+                            if(val.indexOf(a.show) != -1)
+                            {
+                                arr.push(val);
+                                console.log(this);
+                            }
+                        });
+                        return arr;
+                    }
+                }
+
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model="show">
+        <transition-group enter-active-class="zoomInLeft" leave-active-class="zoomOutRight">
+            <p v-show="show" class="animated" v-for="(val,index) in lists" :key="index">{{val}}</p>
+        </transition-group>
+    </div>
+</body>
+</html>

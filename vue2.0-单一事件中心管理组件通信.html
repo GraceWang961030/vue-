@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单一事件中心管理组件通信</title>
+    <script src="vue.js"></script>
+    <script>
+        window.onload=function(){
+            let Event = new Vue();
+            let B={
+                template:'<div><span>我是B组件</span>->{{a}}<input type="button" value="把B的值给C" @click="send"></div>',
+                data(){
+                    return{
+                        a:'我是B组件'
+                    }
+                },
+                methods:{
+                    send(){
+                        Event.$emit('b-msg',this.a)
+                    }
+                }
+            };
+            let C={
+                template:'<div><h3>我是C组件</h3><br><span>接受过来的A的数据为：{{m}}</span><span>接受过来B的数据为:{{n}}</span></div>',
+
+                data(){
+                    return{
+                        m:'',
+                        n:''
+                    }
+                },
+                mounted(){
+                    Event.$on('a-msg',function (a) {
+                        this.m = a;
+                    }.bind(this));
+                    Event.$on('b-msg',function (b) {
+                        this.n = b;
+                    }.bind(this))
+
+                }
+            };
+            new  Vue({
+                el:'#box',
+                data:{
+
+                },
+                components:{
+                    'com-a':{
+                        template:'<div><span>我是A组件</span>->{{a}}<input type="button" value="把A的值给C" @click = "send"></div>',
+                        data(){
+                            return{
+                                a:'我是A组件'
+                            }
+                        },
+                        methods:{
+                            send(){
+                                Event.$emit('a-msg',this.a)
+                            }
+                        }
+
+                    },
+                    'com-b':B,
+                    'com-c':C
+
+                }
+            });
+
+        };
+    </script>
+</head>
+<body>
+<div id="box">
+    <com-a></com-a>
+    <com-b></com-b>
+    <com-c></com-c>
+</div>
+</body>
+</html>

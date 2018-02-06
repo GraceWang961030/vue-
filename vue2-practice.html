@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="box">
+    first-try;
+    <br>
+    <h3>second-try</h3>
+    <br>
+    <input type="button" value="update" @click="update">
+    <br>
+{{msg}}
+    <br>
+    <input type="button" value="destroy" @click="destroy">
+</div>
+<script>
+
+    new Vue({
+        el:'#box',
+        data:{
+            msg:'welcome vue2.0'
+        },
+        methods:{
+            update(){
+                this.msg="the message have changed!";
+            },
+            destroy(){
+                this.$destroy()
+            }
+        },
+        beforeCreate(){
+            alert("实例刚刚创建");
+            console.log("实例刚刚创建")
+        },
+        created(){
+            alert("实例已经被创建完成");
+            console.log("实例已经被创建完成")
+        },
+        beforeMount(){
+            alert("模版编译之前");
+            console.log("模版编译之前")
+        },
+        mounted(){
+            alert("模版编译完成");
+            console.log("模版编译完成")
+        },
+        beforeUpdate(){
+            alert("组件更新之前");
+            console.log("组件更新之前")
+        },
+        updated(){
+            alert("组件更新完毕");
+            console.log("组件更新完毕")
+        },
+        beforeDestroy(){
+            alert("组件销毁之前");
+            console.log('组件销毁之前')
+        },
+        destroyed(){
+            alert('组件销毁完成 ');
+            console.log('组件销毁完成')
+
+        }
+    })
+</script>
+</body>
+</html>

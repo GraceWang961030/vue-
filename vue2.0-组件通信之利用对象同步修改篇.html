@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件通信</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="box">
+    {{giveData.a}}
+    <br>
+
+    <child :msg="giveData"></child>
+</div>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            giveData:{a:"this is father's information"}
+        },
+        components:{
+            child:{
+                props:['msg'],
+                template:"<div><span>this is child's information</span> <input type='button' value='change' @click='change'>/{{msg.a}}</div>",
+                methods:{
+                    change(){
+                        this.msg.a = 'changes have hanppened!'
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

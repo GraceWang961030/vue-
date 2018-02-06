@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>router</title>
+    <script src="vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        .router-link-active{
+            color: red;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            let Home={
+                template:'<h3>我是主页</h3>'
+            };
+            let User={
+                template:'#user'
+            };
+            let userDetail = {
+                template:'<div>{{$route.params}}</div>'
+            };
+            let routes = [
+                {path:'/user',
+                    component:User,
+                    children:[{path:':username/age/:age',component:userDetail}]
+        },
+                {path:'/home',component:Home}
+            ];
+            let router = new VueRouter({
+                routes:routes
+            });
+            new Vue({
+                router:router,
+                methods:{
+                    push(){
+                        router.push({path:'home'})
+
+                    },
+                    replace(){
+                        router.replace({path:'user'})
+                    }
+                }
+
+            }).$mount('#box')
+        }
+    </script>
+</head>
+<body>
+<template id="user">
+    <div>
+    <h3>我是用户</h3>
+    <ul>
+        <li><router-link to="/user/strive/age/10">Strive</router-link></li>
+        <li><router-link to="/user/blue/age/88">Blue</router-link></li>
+        <li><router-link to="/user/eric/age/70">Eric</router-link></li>
+    </ul>
+        <div><router-view></router-view></div>
+    </div>
+</template>
+<div id="box">
+<div>
+    <button  @click="push">add router</button>
+    <button  @click="replace">replace router</button>
+    <br>
+    <router-link to="/home">主页</router-link>
+    <router-link to="/user">用户</router-link>
+</div>
+    <div>
+        <transition enter-active-class="animated zoomInLeft" leave-active-class="animated zoomOutRight">
+        <router-view></router-view>
+        </transition>
+    </div>
+</div>
+</body>
+</html>
